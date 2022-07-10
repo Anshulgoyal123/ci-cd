@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-deployment
+  labels:
+    oyo: room
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      oyo: room
+  template:
+    metadata:
+      labels:
+        oyo: room
+    spec:
+      containers:
+      - name: web
+        image: 9639287812/new:latest
+        ports:
+        - containerPort: 8080
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+spec:
+  type: NodePort
+  selector:
+    oyo: room
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30007
